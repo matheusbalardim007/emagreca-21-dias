@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emagreça em 21 Dias — Guia Completo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--green:#0F3D2E;--green2:#1B5747;--coral:#E8324A;--coral2:#C42039;--bg:#FFF8F3;--sand:#F5E6D8;--text:#1A1A1A;--muted:#6B6060;--gold:#F5A623;--white:#fff}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+img{max-width:100%}
+a{color:inherit;text-decoration:none}
+
+/* ===== QUIZ ===== */
+#quiz-screen{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1.25rem;background:var(--green)}
+.quiz-logo{color:#fff;font-family:'Playfair Display',serif;font-size:1rem;margin-bottom:2rem;opacity:.85;text-align:center;letter-spacing:.05em}
+.quiz-card{background:#fff;border-radius:20px;padding:2.25rem 1.75rem;max-width:500px;width:100%;box-shadow:0 24px 60px rgba(0,0,0,.25)}
+.quiz-progress{height:6px;background:#F0ECEC;border-radius:3px;margin-bottom:1.75rem;overflow:hidden}
+.quiz-bar{height:100%;background:var(--coral);border-radius:3px;transition:width .45s ease}
+.quiz-step{display:none;animation:qfade .3s ease}
+.quiz-step.active{display:block}
+@keyframes qfade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.quiz-eyebrow{font-size:.72rem;font-weight:700;color:var(--coral);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.6rem}
+.quiz-q{font-family:'Playfair Display',serif;font-size:1.35rem;color:var(--text);margin-bottom:1.5rem;line-height:1.38}
+.quiz-opts{display:flex;flex-direction:column;gap:.65rem}
+.quiz-opt{border:2px solid #EAEAEA;border-radius:12px;padding:.9rem 1.1rem;cursor:pointer;font-size:.93rem;color:var(--text);text-align:left;background:#fff;transition:all .18s;display:flex;align-items:center;gap:.75rem;font-family:'Inter',sans-serif}
+.quiz-opt:hover{border-color:var(--coral);background:#fff5f6;color:var(--coral)}
+.quiz-opt.sel{border-color:var(--coral);background:#fff0f2;color:var(--coral)}
+.opt-dot{width:22px;height:22px;border-radius:50%;border:2px solid currentColor;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;transition:all .18s}
+.quiz-opt.sel .opt-dot{background:var(--coral);border-color:var(--coral);color:#fff}
+
+/* ===== RESULT SCREEN ===== */
+#result-screen{display:none;min-height:100vh;background:var(--green);align-items:center;justify-content:center;flex-direction:column;padding:2rem 1.5rem;text-align:center}
+#result-screen.active{display:flex}
+.res-icon{width:80px;height:80px;border-radius:50%;background:var(--coral);display:flex;align-items:center;justify-content:center;font-size:2.5rem;margin:0 auto 1.5rem;animation:pop .5s cubic-bezier(.34,1.56,.64,1)}
+@keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
+.res-title{font-family:'Playfair Display',serif;color:#fff;font-size:1.9rem;margin-bottom:.85rem;line-height:1.25}
+.res-sub{color:rgba(255,255,255,.75);font-size:.97rem;max-width:380px;margin:0 auto 2rem}
+.res-track{background:rgba(255,255,255,.12);border-radius:50px;height:8px;width:280px;max-width:90%;overflow:hidden;margin:0 auto .6rem}
+.res-fill{height:100%;background:var(--coral);border-radius:50px;width:0%;transition:width 2.2s cubic-bezier(.4,0,.2,1)}
+.res-label{color:rgba(255,255,255,.55);font-size:.82rem}
+
+/* ===== SALES PAGE ===== */
+#sales-page{display:none}
+#sales-page.active{display:block}
+
+/* HERO */
+.hero{background:var(--green);padding:5rem 1.5rem 4rem;text-align:center;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 65% 35%,rgba(232,50,74,.18) 0%,transparent 60%);pointer-events:none}
+.hero-eyebrow{display:inline-block;background:rgba(232,50,74,.18);color:#FF8FA0;font-size:.72rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:.4rem 1.2rem;border-radius:50px;margin-bottom:1.5rem;border:1px solid rgba(232,50,74,.3);position:relative}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.4rem);color:#fff;line-height:1.14;margin-bottom:1.1rem;max-width:680px;margin-left:auto;margin-right:auto;position:relative}
+.hero h1 em{color:var(--coral);font-style:italic}
+.hero-sub{color:rgba(255,255,255,.72);font-size:1.05rem;max-width:520px;margin:0 auto 2.5rem;position:relative}
+.hero-badges{display:flex;justify-content:center;gap:.75rem;flex-wrap:wrap;margin-bottom:3rem;position:relative}
+.badge{background:rgba(255,255,255,.1);color:rgba(255,255,255,.85);border:1px solid rgba(255,255,255,.18);border-radius:50px;padding:.35rem .95rem;font-size:.8rem;font-weight:500}
+.price-box{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:20px;padding:1.75rem 2rem;max-width:360px;margin:0 auto;position:relative}
+.price-old{color:rgba(255,255,255,.4);font-size:.95rem;text-decoration:line-through;margin-bottom:.2rem}
+.price-main{color:#fff;font-family:'Playfair Display',serif;font-size:3.2rem;font-weight:900;line-height:1;margin-bottom:.2rem}
+.price-main sup{font-size:1.4rem;vertical-align:super}
+.price-note{color:rgba(255,255,255,.55);font-size:.8rem;margin-bottom:1.5rem}
+.btn-cta{display:block;width:100%;background:var(--coral);color:#fff;font-size:1.05rem;font-weight:700;padding:1.1rem 2rem;border-radius:12px;cursor:pointer;text-align:center;transition:all .2s;letter-spacing:.02em;animation:pulse-cta 2.2s ease-in-out infinite;border:none;font-family:'Inter',sans-serif}
+@keyframes pulse-cta{0%,100%{box-shadow:0 4px 20px rgba(232,50,74,.4)}50%{box-shadow:0 4px 40px rgba(232,50,74,.75)}}
+.btn-cta:hover{background:var(--coral2);transform:translateY(-2px)}
+.secure{margin-top:.7rem;color:rgba(255,255,255,.45);font-size:.76rem;display:flex;align-items:center;justify-content:center;gap:.35rem}
+
+/* COUNTDOWN */
+.countdown-bar{background:#0B3026;padding:.75rem 1.5rem;text-align:center}
+.countdown-bar p{color:rgba(255,255,255,.8);font-size:.85rem;display:flex;align-items:center;justify-content:center;gap:.5rem;flex-wrap:wrap}
+.cnt{background:var(--coral);color:#fff;font-weight:700;padding:.15rem .55rem;border-radius:6px;font-size:.95rem;min-width:34px;display:inline-block;text-align:center;font-variant-numeric:tabular-nums}
+
+/* PAIN */
+.pain{background:var(--sand);padding:4.5rem 1.5rem;text-align:center}
+.sec-lbl{font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--coral);margin-bottom:.65rem}
+.sec-title{font-family:'Playfair Display',serif;font-size:clamp(1.55rem,3.5vw,2.35rem);color:var(--green);margin-bottom:.85rem;line-height:1.25}
+.sec-sub{color:var(--muted);max-width:560px;margin:0 auto;font-size:.97rem}
+.pain-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1.1rem;max-width:840px;margin:2.5rem auto 0;text-align:left}
+.pain-card{background:#fff;border-radius:16px;padding:1.4rem 1.5rem;border-left:4px solid var(--coral)}
+.pain-card strong{display:block;color:var(--text);font-size:.97rem;margin-bottom:.35rem}
+.pain-card p{font-size:.88rem;color:var(--muted);line-height:1.58}
+
+/* SOLUTION */
+.solution{padding:5rem 1.5rem;text-align:center;background:var(--bg)}
+.book-mock{background:var(--green);border-radius:18px;padding:2rem 1.75rem;max-width:310px;margin:2.5rem auto;color:#fff;position:relative;overflow:hidden;box-shadow:0 20px 50px rgba(15,61,46,.35)}
+.book-mock::before{content:'';position:absolute;top:-30px;right:-30px;width:160px;height:160px;background:rgba(232,50,74,.18);border-radius:50%}
+.book-mock::after{content:'';position:absolute;bottom:-20px;left:-20px;width:100px;height:100px;background:rgba(255,255,255,.05);border-radius:50%}
+.bm-days{font-size:4.5rem;font-weight:900;font-family:'Playfair Display',serif;line-height:1;color:var(--coral);position:relative}
+.bm-title{font-family:'Playfair Display',serif;font-size:1.25rem;position:relative;margin-bottom:.4rem}
+.bm-sub{font-size:.8rem;opacity:.65;position:relative;margin-bottom:1.5rem}
+.bm-tag{background:var(--coral);color:#fff;font-size:.9rem;font-weight:700;padding:.45rem 1.2rem;border-radius:50px;display:inline-block;position:relative}
+
+/* INCLUDES */
+.includes{background:var(--green);padding:5rem 1.5rem;color:#fff}
+.includes .sec-title{color:#fff;text-align:center}
+.includes .sec-lbl{text-align:center;display:block}
+.inc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.1rem;max-width:840px;margin:2.5rem auto 0}
+.inc-item{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:1.4rem;display:flex;gap:.9rem;align-items:flex-start}
+.inc-ico{width:40px;height:40px;min-width:40px;background:var(--coral);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem}
+.inc-txt strong{display:block;color:#fff;font-size:.93rem;margin-bottom:.28rem}
+.inc-txt span{color:rgba(255,255,255,.58);font-size:.83rem;line-height:1.5}
+
+/* TESTIMONIALS */
+.testi{padding:5rem 1.5rem;background:var(--sand);text-align:center}
+.testi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:1.4rem;max-width:900px;margin:2.5rem auto 0}
+.testi-card{background:#fff;border-radius:20px;padding:1.6rem;text-align:left;border:1px solid rgba(0,0,0,.05)}
+.stars{color:var(--gold);font-size:.95rem;margin-bottom:.9rem;letter-spacing:2px}
+.testi-txt{font-size:.92rem;color:#444;line-height:1.65;margin-bottom:1.1rem;font-style:italic}
+.testi-author{display:flex;align-items:center;gap:.7rem}
+.avatar{width:40px;height:40px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.82rem;flex-shrink:0}
+.av-name{font-weight:600;font-size:.87rem;color:var(--text)}
+.av-city{font-size:.75rem;color:var(--muted)}
+.av-result{background:#edf9f3;color:#237a4b;font-size:.76rem;font-weight:700;padding:.2rem .65rem;border-radius:50px;display:inline-block;margin-top:.6rem;border:1px solid #b8e4ce}
+
+/* GUARANTEE */
+.guarantee{padding:4.5rem 1.5rem;background:var(--bg);text-align:center}
+.guar-box{background:#fff;border-radius:20px;padding:2.5rem 1.75rem;max-width:560px;margin:0 auto;border:2px solid var(--green)}
+.guar-ico{font-size:2.8rem;margin-bottom:.9rem}
+.guar-box h3{font-family:'Playfair Display',serif;font-size:1.55rem;color:var(--green);margin-bottom:.65rem}
+.guar-box p{color:var(--muted);font-size:.93rem;line-height:1.65}
+
+/* FINAL CTA */
+.final{background:var(--green);padding:5rem 1.5rem;text-align:center}
+.final h2{font-family:'Playfair Display',serif;font-size:clamp(1.75rem,4vw,2.8rem);color:#fff;margin-bottom:.9rem;line-height:1.22}
+.final>p{color:rgba(255,255,255,.68);max-width:460px;margin:0 auto 2.5rem;font-size:.97rem}
+.final-box{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:20px;padding:2rem;max-width:370px;margin:0 auto}
+.btn-cta-lg{display:block;background:var(--coral);color:#fff;font-size:1.12rem;font-weight:700;padding:1.2rem 2rem;border-radius:14px;text-align:center;transition:all .2s;animation:pulse-cta 2.2s ease-in-out infinite;margin-bottom:.75rem;font-family:'Inter',sans-serif}
+.btn-cta-lg:hover{background:var(--coral2);transform:translateY(-2px)}
+.final-secure{color:rgba(255,255,255,.45);font-size:.76rem;display:flex;align-items:center;justify-content:center;gap:.35rem;flex-wrap:wrap}
+
+/* FAQ */
+.faq{background:var(--sand);padding:4.5rem 1.5rem;text-align:center}
+.faq-list{max-width:680px;margin:2rem auto 0;text-align:left}
+.faq-item{border-bottom:1px solid rgba(0,0,0,.08);padding:1.25rem 0}
+.faq-q{font-weight:600;color:var(--green);font-size:.97rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.faq-q span{font-size:1.1rem;transition:transform .25s;flex-shrink:0}
+.faq-a{color:var(--muted);font-size:.9rem;line-height:1.65;max-height:0;overflow:hidden;transition:max-height .3s ease,margin .3s}
+.faq-item.open .faq-a{max-height:200px;margin-top:.75rem}
+.faq-item.open .faq-q span{transform:rotate(45deg)}
+
+/* FOOTER */
+.footer{background:#0a2a1e;color:rgba(255,255,255,.38);text-align:center;padding:2rem 1.5rem;font-size:.78rem;line-height:1.7}
+
+@media(max-width:600px){
+  .pain-grid,.inc-grid,.testi-grid{grid-template-columns:1fr}
+  .hero{padding:3.5rem 1.25rem 3rem}
+  .final,.includes,.pain,.solution,.testi,.guarantee,.faq{padding:3.5rem 1.25rem}
+}
+</style>
+</head>
+<body>
+
+<!-- ================================================================
+     QUIZ SCREEN
+================================================================ -->
+<div id="quiz-screen">
+  <p class="quiz-logo">✨ Emagreça em 21 Dias</p>
+
+  <div class="quiz-card">
+    <div class="quiz-progress">
+      <div class="quiz-bar" id="quiz-bar" style="width:20%"></div>
+    </div>
+
+    <!-- PERGUNTA 1 -->
+    <div class="quiz-step active" id="q1">
+      <p class="quiz-eyebrow">Pergunta 1 de 5</p>
+      <p class="quiz-q">Qual é o seu maior obstáculo para emagrecer hoje?</p>
+      <div class="quiz-opts">
+        <button class="quiz-opt" onclick="next(1,this)"><span class="opt-dot">A</span>Não consigo controlar a alimentação</button>
+        <button class="quiz-opt" onclick="next(1,this)"><span class="opt-dot">B</span>Falta de tempo para treinar</button>
+        <button class="quiz-opt" onclick="next(1,this)"><span class="opt-dot">C</span>Já tentei várias dietas sem resultado</button>
+        <button class="quiz-opt" onclick="next(1,this)"><span class="opt-dot">D</span>Não sei por onde começar</button>
+      </div>
+    </div>
+
+    <!-- PERGUNTA 2 -->
+    <div class="quiz-step" id="q2">
+      <p class="quiz-eyebrow">Pergunta 2 de 5</p>
+      <p class="quiz-q">Há quanto tempo você tenta perder peso sem resultado consistente?</p>
+      <div class="quiz-opts">
+        <button class="quiz-opt" onclick="next(2,this)"><span class="opt-dot">A</span>Menos de 6 meses</button>
+        <button class="quiz-opt" onclick="next(2,this)"><span class="opt-dot">B</span>Entre 6 meses e 1 ano</button>
+        <button class="quiz-opt" onclick="next(2,this)"><span class="opt-dot">C</span>Entre 1 e 3 anos</button>
+        <button class="quiz-opt" onclick="next(2,this)"><span class="opt-dot">D</span>Mais de 3 anos</button>
+      </div>
+    </div>
+
+    <!-- PERGUNTA 3 -->
+    <div class="quiz-step" id="q3">
+      <p class="quiz-eyebrow">Pergunta 3 de 5</p>
+      <p class="quiz-q">Onde você prefere (ou consegue) se exercitar?</p>
+      <div class="quiz-opts">
+        <button class="quiz-opt" onclick="next(3,this)"><span class="opt-dot">A</span>Em casa mesmo, sem precisar sair</button>
+        <button class="quiz-opt" onclick="next(3,this)"><span class="opt-dot">B</span>Prefiro academia, mas não tenho acesso</button>
+        <button class="quiz-opt" onclick="next(3,this)"><span class="opt-dot">C</span>Ao ar livre, caminhada ou parque</button>
+        <button class="quiz-opt" onclick="next(3,this)"><span class="opt-dot">D</span>Nunca me exercito — quero começar</button>
+      </div>
+    </div>
+
+    <!-- PERGUNTA 4 -->
+    <div class="quiz-step" id="q4">
+      <p class="quiz-eyebrow">Pergunta 4 de 5</p>
+      <p class="quiz-q">Como está sua alimentação hoje?</p>
+      <div class="quiz-opts">
+        <button class="quiz-opt" onclick="next(4,this)"><span class="opt-dot">A</span>Como bem, mas mesmo assim não emagreço</button>
+        <button class="quiz-opt" onclick="next(4,this)"><span class="opt-dot">B</span>Tenho muita dificuldade com disciplina</button>
+        <button class="quiz-opt" onclick="next(4,this)"><span class="opt-dot">C</span>Faço dieta restritiva mas sofro com recaídas</button>
+        <button class="quiz-opt" onclick="next(4,this)"><span class="opt-dot">D</span>Não sei o que comer para emagrecer</button>
+      </div>
+    </div>
+
+    <!-- PERGUNTA 5 -->
+    <div class="quiz-step" id="q5">
+      <p class="quiz-eyebrow">Pergunta 5 de 5</p>
+      <p class="quiz-q">Quantos minutos por dia você consegue dedicar ao seu corpo?</p>
+      <div class="quiz-opts">
+        <button class="quiz-opt" onclick="finish(this)"><span class="opt-dot">A</span>Menos de 10 minutos</button>
+        <button class="quiz-opt" onclick="finish(this)"><span class="opt-dot">B</span>Entre 10 e 20 minutos — perfeito pra mim</button>
+        <button class="quiz-opt" onclick="finish(this)"><span class="opt-dot">C</span>Entre 20 e 30 minutos</button>
+        <button class="quiz-opt" onclick="finish(this)"><span class="opt-dot">D</span>Mais de 30 minutos</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ================================================================
+     RESULT SCREEN
+================================================================ -->
+<div id="result-screen">
+  <div class="res-icon">✅</div>
+  <h2 class="res-title">Encontramos o plano ideal para você!</h2>
+  <p class="res-sub">Com base nas suas respostas, o <strong>Guia Emagreça em 21 Dias</strong> é exatamente o que você precisa. Personalizando seu resultado…</p>
+  <div class="res-track"><div class="res-fill" id="res-fill"></div></div>
+  <p class="res-label" id="res-label">Carregando sua página personalizada…</p>
+</div>
+
+<!-- ================================================================
+     SALES PAGE
+================================================================ -->
+<div id="sales-page">
+
+  <!-- HERO -->
+  <section class="hero">
+    <p class="hero-eyebrow">🔥 Método exclusivo para mulheres</p>
+    <h1>Perca peso em casa em <em>21 dias</em> sem academia, sem dieta radical e sem sofrimento</h1>
+    <p class="hero-sub">Um guia prático com treinos de 10 a 20 minutos e alimentação simples — para você que quer resultado real sem complicação.</p>
+    <div class="hero-badges">
+      <span class="badge">✅ Sem equipamentos</span>
+      <span class="badge">✅ Em casa mesmo</span>
+      <span class="badge">✅ Para qualquer nível</span>
+      <span class="badge">✅ Resultados em 21 dias</span>
+    </div>
+    <div class="price-box">
+      <p class="price-old">De R$ 97,00</p>
+      <p class="price-main"><sup>R$</sup>27<sup>,90</sup></p>
+      <p class="price-note">pagamento único • acesso imediato</p>
+      <a class="btn-cta" href="COLOQUE_SEU_LINK_DE_CHECKOUT_AQUI" id="cta-hero">🛒 Quero emagrecer em 21 dias!</a>
+      <p class="secure">🔒 Pagamento 100% seguro • PIX, cartão ou boleto</p>
+    </div>
+  </section>
+
+  <!-- COUNTDOWN -->
+  <div class="countdown-bar">
+    <p>⏳ Oferta especial encerra em: <span class="cnt" id="c-h">00</span>:<span class="cnt" id="c-m">00</span>:<span class="cnt" id="c-s">00</span> — Garanta agora pelo menor preço!</p>
+  </div>
+
+  <!-- PAIN POINTS -->
+  <section class="pain">
+    <p class="sec-lbl">Você se identifica com isso?</p>
+    <h2 class="sec-title">Você já tentou de tudo…<br>e nada funcionou de verdade</h2>
+    <p class="sec-sub">Dieta restritiva, treino pesado, corte de carboidratos… e o resultado não veio. Isso não é falta de força de vontade — é falta do método certo.</p>
+    <div class="pain-grid">
+      <div class="pain-card">
+        <strong>😔 Dietas que prometem e não cumprem</strong>
+        <p>Você segue por alguns dias, sofre, e no fim do mês a balança não move.</p>
+      </div>
+      <div class="pain-card">
+        <strong>⏰ Falta de tempo para treinar</strong>
+        <p>A vida é corrida. Academia parece impossível. E os dias passam sem movimento.</p>
+      </div>
+      <div class="pain-card">
+        <strong>🍕 Dificuldade de manter a alimentação</strong>
+        <p>Segunda-feira começa bem, mas na quinta o cardápio vai por água abaixo.</p>
+      </div>
+      <div class="pain-card">
+        <strong>🔄 Efeito sanfona interminável</strong>
+        <p>Perde 3 kg, recupera 5 kg. E fica presa nesse ciclo frustrante sem saída.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOLUTION -->
+  <section class="solution">
+    <p class="sec-lbl">A solução que faltava</p>
+    <h2 class="sec-title">Um plano simples, direto e feito para funcionar na sua vida real</h2>
+    <p class="sec-sub" style="max-width:560px;margin:0 auto;color:var(--muted);font-size:.97rem">Sem precisar de academia, sem cortar todos os alimentos que você gosta, sem treinar horas por dia. O Guia Emagreça em 21 Dias é diferente porque respeita a sua rotina.</p>
+    <div class="book-mock">
+      <p class="bm-days">21</p>
+      <p class="bm-title">Emagreça em 21 Dias</p>
+      <p class="bm-sub">O guia prático para perder peso em casa</p>
+      <span class="bm-tag">Acesso imediato 📲</span>
+    </div>
+  </section>
+
+  <!-- WHAT'S INSIDE -->
+  <section class="includes">
+    <p class="sec-lbl">O que está dentro do guia</p>
+    <h2 class="sec-title" style="max-width:600px;margin:0 auto">Tudo que você precisa para os próximos 21 dias</h2>
+    <div class="inc-grid">
+      <div class="inc-item">
+        <div class="inc-ico">🗓️</div>
+        <div class="inc-txt">
+          <strong>3 fases de 7 dias cada</strong>
+          <span>Fundação, Intensidade e Consolidação — evoluindo no seu ritmo sem se machucar.</span>
+        </div>
+      </div>
+      <div class="inc-item">
+        <div class="inc-ico">🏠</div>
+        <div class="inc-txt">
+          <strong>Treinos de 10 a 20 min em casa</strong>
+          <span>3 treinos completos para cada fase, sem equipamentos, executáveis no quarto ou na sala.</span>
+        </div>
+      </div>
+      <div class="inc-item">
+        <div class="inc-ico">🥗</div>
+        <div class="inc-txt">
+          <strong>Guia de alimentação simples</strong>
+          <span>Sem contar caloria obsessivamente. Orientações práticas que cabem na sua rotina.</span>
+        </div>
+      </div>
+      <div class="inc-item">
+        <div class="inc-ico">🍳</div>
+        <div class="inc-txt">
+          <strong>5 receitas rápidas e saudáveis</strong>
+          <span>Fáceis de fazer, com poucos ingredientes, para você não travar na cozinha.</span>
+        </div>
+      </div>
+      <div class="inc-item">
+        <div class="inc-ico">✅</div>
+        <div class="inc-txt">
+          <strong>Checklist diário motivador</strong>
+          <span>Acompanhe seu progresso dia a dia e mantenha o foco mesmo nos dias difíceis.</span>
+        </div>
+      </div>
+      <div class="inc-item">
+        <div class="inc-ico">💬</div>
+        <div class="inc-txt">
+          <strong>Dicas de mentalidade</strong>
+          <span>Como não desistir, lidar com recaídas e se manter no caminho até o dia 21.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testi">
+    <p class="sec-lbl">Resultados reais</p>
+    <h2 class="sec-title">Mulheres que aplicaram o método</h2>
+    <p class="sec-sub" style="color:var(--muted);max-width:520px;margin:0 auto;font-size:.97rem">Veja o que acontece quando o método é simples e a rotina é respeitada.</p>
+    <div class="testi-grid">
+
+      <div class="testi-card">
+        <p class="stars">★★★★★</p>
+        <p class="testi-txt">"Eu tinha tentado de tudo e nada funcionava. Com esse guia eu finalmente entendi que não precisava sofrer pra emagrecer. Os treinos são rápidos demais e a alimentação não é nada restritiva. Em 21 dias me senti uma nova pessoa!"</p>
+        <div class="testi-author">
+          <div class="avatar">AP</div>
+          <div>
+            <p class="av-name">Ana Paula Santos</p>
+            <p class="av-city">São Paulo, SP • 38 anos</p>
+            <span class="av-result">✅ Perdeu 5,2 kg em 21 dias</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card">
+        <p class="stars">★★★★★</p>
+        <p class="testi-txt">"Sou mãe de dois filhos e não tenho tempo pra nada. Esses treinos de 15 minutos mudaram minha vida. Consegui encaixar na hora do almoço enquanto os meninos dormem. Perdi medida no quadril logo na primeira semana!"</p>
+        <div class="testi-author">
+          <div class="avatar">CM</div>
+          <div>
+            <p class="av-name">Carla Mendonça</p>
+            <p class="av-city">Curitiba, PR • 45 anos</p>
+            <span class="av-result">✅ Perdeu 4,1 kg em 21 dias</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card">
+        <p class="stars">★★★★★</p>
+        <p class="testi-txt">"Comprei no impulso achando que ia ser mais uma coisa que eu não terminaria. Me surpreendi! O checklist diário me manteve animada do dia 1 ao 21. Minhas roupas que não serviam mais estão me servindo de novo. Indiquei pra todas as minhas amigas."</p>
+        <div class="testi-author">
+          <div class="avatar">JR</div>
+          <div>
+            <p class="av-name">Juliana Ramos</p>
+            <p class="av-city">Rio de Janeiro, RJ • 29 anos</p>
+            <span class="av-result">✅ Perdeu 3,8 kg e 5 cm na cintura</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- GUARANTEE -->
+  <section class="guarantee">
+    <div class="guar-box">
+      <p class="guar-ico">🛡️</p>
+      <h3>Garantia de 7 dias</h3>
+      <p>Você tem 7 dias para ler o guia e experimentar o método. Se por qualquer motivo não ficar satisfeita, basta pedir o reembolso. Sem perguntas, sem burocracia — 100% do seu dinheiro de volta. O risco é zero.</p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq">
+    <p class="sec-lbl">Perguntas frequentes</p>
+    <h2 class="sec-title">Ficou alguma dúvida?</h2>
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <p class="faq-q">Como vou receber o guia? <span>+</span></p>
+        <p class="faq-a">Após a confirmação do pagamento, você recebe acesso imediato ao guia digital em PDF. Pode baixar no celular, computador ou tablet e começar a usar na hora.</p>
+      </div>
+
+      <div class="faq-item">
+        <p class="faq-q">Funciona para quem nunca treinou antes? <span>+</span></p>
+        <p class="faq-a">Sim! Os treinos foram pensados para iniciantes. Você vai começar do zero e evoluir no seu ritmo, sem pressão.</p>
+      </div>
+
+      <div class="faq-item">
+        <p class="faq-q">Preciso de algum equipamento? <span>+</span></p>
+        <p class="faq-a">Não. Nenhum equipamento, nenhuma academia. Só você e um cantinho em casa. Tudo no seu peso corporal.</p>
+      </div>
+
+      <div class="faq-item">
+        <p class="faq-q">Funciona para mulheres mais velhas? <span>+</span></p>
+        <p class="faq-a">Sim. O guia foi criado para mulheres entre 21 e 65 anos, respeitando diferentes condicionamentos físicos. Os exercícios têm versões adaptadas para cada nível.</p>
+      </div>
+
+      <div class="faq-item">
+        <p class="faq-q">Preciso fazer dieta radical? <span>+</span></p>
+        <p class="faq-a">Não. O foco é equilíbrio, não restrição extrema. Você vai aprender a comer melhor sem abrir mão de tudo que gosta.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final">
+    <h2>Você merece se sentir bem no seu próprio corpo</h2>
+    <p>Comece hoje. Em 21 dias você vai notar a diferença — na balança, nas roupas e na sua energia.</p>
+    <div class="final-box">
+      <p style="color:rgba(255,255,255,.5);font-size:.8rem;text-decoration:line-through;margin-bottom:.15rem">De R$ 97,00</p>
+      <p style="color:#fff;font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:900;margin-bottom:.15rem"><sup style="font-size:1.3rem">R$</sup>27<sup style="font-size:1.3rem">,90</sup></p>
+      <p style="color:rgba(255,255,255,.5);font-size:.79rem;margin-bottom:1.4rem">Pagamento único • Acesso imediato</p>
+      <a class="btn-cta-lg" href="COLOQUE_SEU_LINK_DE_CHECKOUT_AQUI" id="cta-final">🛒 Quero o guia agora por R$27,90!</a>
+      <p class="final-secure">🔒 Pagamento seguro &nbsp;|&nbsp; PIX, cartão, boleto &nbsp;|&nbsp; Garantia 7 dias</p>
+    </div>
+  </section>
+
+  <div class="footer">
+    <p>© 2025 — Emagreça em 21 Dias. Todos os direitos reservados.</p>
+    <p style="margin-top:.4rem">Este material tem caráter educativo e não substitui orientação médica ou nutricional. Resultados individuais podem variar.</p>
+  </div>
+
+</div><!-- /#sales-page -->
+
+<script>
+// ============================================================
+// ⚙️  ALTERE AQUI: cole o seu link de checkout da Cakto
+// ============================================================
+var CHECKOUT_URL = 'COLOQUE_SEU_LINK_DE_CHECKOUT_AQUI';
+
+// Substitui todos os botões de CTA pelo link correto
+document.querySelectorAll('[href="COLOQUE_SEU_LINK_DE_CHECKOUT_AQUI"]').forEach(function(el){
+  el.href = CHECKOUT_URL;
+});
+
+// ============================================================
+// QUIZ LOGIC
+// ============================================================
+var current = 1;
+var progress = [20,40,60,80,100];
+
+function next(q, btn){
+  btn.classList.add('sel');
+  btn.querySelector('.opt-dot').textContent = '✓';
+  document.getElementById('quiz-bar').style.width = progress[q] + '%';
+  var next = q + 1;
+  setTimeout(function(){
+    document.getElementById('q'+q).classList.remove('active');
+    document.getElementById('q'+next).classList.add('active');
+  }, 380);
+}
+
+function finish(btn){
+  btn.classList.add('sel');
+  btn.querySelector('.opt-dot').textContent = '✓';
+  document.getElementById('quiz-bar').style.width = '100%';
+  setTimeout(function(){
+    document.getElementById('quiz-screen').style.display = 'none';
+    var rs = document.getElementById('result-screen');
+    rs.classList.add('active');
+    var fill = document.getElementById('res-fill');
+    var lbl  = document.getElementById('res-label');
+    setTimeout(function(){ fill.style.width = '100%'; }, 120);
+    var msgs = [
+      'Analisando suas respostas…',
+      'Identificando seu perfil…',
+      'Montando seu plano personalizado…',
+      'Quase lá! Preparando sua página…'
+    ];
+    var mi = 0;
+    var iv = setInterval(function(){
+      mi++;
+      if(mi < msgs.length) lbl.textContent = msgs[mi];
+    }, 600);
+    setTimeout(function(){
+      clearInterval(iv);
+      rs.classList.remove('active');
+      rs.style.display = 'none';
+      var sp = document.getElementById('sales-page');
+      sp.classList.add('active');
+      window.scrollTo(0,0);
+      startCountdown();
+    }, 2800);
+  }, 450);
+}
+
+// ============================================================
+// COUNTDOWN TIMER (23 min e 59 seg, recomeça se zerar)
+// ============================================================
+function startCountdown(){
+  var total = 23 * 60 + 59;
+  function tick(){
+    var h = Math.floor(total/3600);
+    var m = Math.floor((total%3600)/60);
+    var s = total % 60;
+    document.getElementById('c-h').textContent = String(h).padStart(2,'0');
+    document.getElementById('c-m').textContent = String(m).padStart(2,'0');
+    document.getElementById('c-s').textContent = String(s).padStart(2,'0');
+    if(total <= 0){ total = 23*60+59; } else { total--; }
+  }
+  tick();
+  setInterval(tick,1000);
+}
+
+// ============================================================
+// FAQ ACCORDION
+// ============================================================
+document.querySelectorAll('.faq-q').forEach(function(el){
+  el.addEventListener('click',function(){
+    var item = el.parentElement;
+    document.querySelectorAll('.faq-item').forEach(function(i){
+      if(i !== item) i.classList.remove('open');
+    });
+    item.classList.toggle('open');
+  });
+});
+</script>
+</body>
+</html>
